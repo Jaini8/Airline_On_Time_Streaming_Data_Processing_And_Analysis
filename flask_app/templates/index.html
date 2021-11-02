@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
+    <script>
+        var base_url = 'http://{{host_name}}:9996';
+        function start() {
+            let query_name = $('#query')[0].value;
+            console.log(query_name);
+            jQuery.get(base_url + '/start', { 'query_name': query_name }, 'json')
+                .then((data) => $.getScript(data.js_link))
+                .done(() => setInterval(update, 1000));
+        }
+    </script>
+    <style>
+        body {
+            background-image: linear-gradient(to bottom, #dee8ff, white);
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        #chartdiv {
+            /*position: fixed;*/
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            align-content: center;
+            width: 95%;
+            height: 500px;
+        }
+
+        #query {
+            align-content: center;
+            background-color: #6299f1;
+            color: white;
+            font-size: 16px;
+            padding: 3px;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #query:hover {
+            background-color: #377cec;
+        }
+
+        button {
+            background-color: #a3c1f1;
+            color: black;
+            font-size: 16px;
+            padding: 3px;
+            border: blue;
+            border-width: 1px;
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <h1 style="text-align: center;">CS543 Fall 2021 - Group 6 - Project 1</h1>
+    <h2 style="text-align: center;">Airline On-Time Streaming Data Analysis</h2>
+    <h3 style="text-align: center;">Team Members: Arwa EL-Hawwat, Jaini Patel, Rahul Dev Ellezhuthil</h3>
+    
+    <select id="query">
+        <option value="carrier_punctuality">Carrier Punctuality</option>
+        <option value="worst_months">Worst Months to travel</option>
+        <option value="busiest_airports">Busiest Airports</option>
+        <option value="busy_paths">Busy Paths</option>
+    </select>
+    <button onclick="start()">Start</button>
+    <div id='chartdiv'></div>
+</body>
+
+</html>
